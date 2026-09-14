@@ -405,6 +405,21 @@ test.describe("device.clipboard", () => {
 });
 
 // ---------------------------------------------------------------------------
+// device.settings.apply
+// ---------------------------------------------------------------------------
+test.describe("device.settings.apply", () => {
+  test("switches appearance to dark and back to light", async ({ request }) => {
+    returnsResult(await rpc(request, "device.settings.apply", { appearance: "dark" }));
+    returnsResult(await rpc(request, "device.settings.apply", { appearance: "light" }));
+  });
+
+  test("fails on an unknown appearance", async ({ request }) => {
+    const error = returnsError(await rpc(request, "device.settings.apply", { appearance: "sepia" }));
+    expect(error.code).toBeTruthy();
+  });
+});
+
+// ---------------------------------------------------------------------------
 // error handling
 // ---------------------------------------------------------------------------
 test.describe("error handling", () => {
